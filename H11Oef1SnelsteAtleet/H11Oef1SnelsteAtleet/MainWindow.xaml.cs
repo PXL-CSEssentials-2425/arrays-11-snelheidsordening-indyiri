@@ -22,47 +22,25 @@ namespace H11Oef1SnelsteAtleet
             nameTextBox.Focus();
         }
 
-        string[] athletes = new string[100];
-        int[] times = new int[100];
+        string[,] athleteData = new string[100, 2];
         int currentIndex = 0;
-        int fastestIndex = -1;
-
-        string nameFastest = "";
-        int timeFastest;
 
         private void newButton_Click(object sender, RoutedEventArgs e)
         {
             int timeCurrent;
             bool isValidNumber = int.TryParse(timeTextBox.Text, out timeCurrent);
 
-            if (currentIndex >= athletes.Length)
+            if (currentIndex >= athleteData.GetLength(0))
             {
-                MessageBox.Show("Maximum number of athletes reached", "Too many inputs", MessageBoxButton.OK, MessageBoxImage.Stop);
+                MessageBox.Show("Het maximale aantal inputs is bereikt", "Te veel inputs", MessageBoxButton.OK, MessageBoxImage.Stop);
             }
             else
             { 
                 if (isValidNumber == true)       // of 'if (isValidNumber)' is eigenlijk al genoeg
                 {
-                    athletes[currentIndex] = nameTextBox.Text;
-                    times[currentIndex] = timeCurrent;
-
-                    if (fastestIndex == -1 || timeCurrent < timeFastest)
-                    { 
-                        fastestIndex = currentIndex;
-
-                        timeFastest = times[fastestIndex];
-                        nameFastest = athletes[fastestIndex];
-                    }
-
+                    athleteData[currentIndex, 0] = nameTextBox.Text;
+                    athleteData[currentIndex, 1] = timeCurrent.ToString();
                     currentIndex++;
-
-                    /*
-                    if (timeFastest == 0 || timeCurrent < timeFastest)
-                    {
-                        timeFastest = timeCurrent;
-                        nameFastest = nameTextBox.Text;
-                    }
-                    */
                 }
 
                 nameTextBox.Clear();
@@ -77,17 +55,57 @@ namespace H11Oef1SnelsteAtleet
             nameTextBox.Text = string.Empty;
             timeTextBox.Text = string.Empty;
             resultTextBox.Text = string.Empty;
-
+            Array.Clear(athleteData, 0, athleteData.Length);
+            currentIndex = 0;
+            nameTextBox.Focus();
         }
 
         private void fastestButton_Click(object sender, RoutedEventArgs e)
         {
-            int hourAmount = timeFastest / 3600;
-            int minutesAmount = (timeFastest % 3600) / 60;
-            int secondsAmount = (timeFastest % 3600) % 60;
 
+            if (currentIndex == 0)
+            {
+                MessageBox.Show("Geen atleten gegeven","Geen atleten", MessageBoxButton.OK, MessageBoxImage.Error);
+                nameTextBox.Focus();
+            }
+            else
+            {
+                int[] times = new int[currentIndex];
 
-            resultTextBox.Text = $"De snelste atleet is {nameFastest} \nTotaal aantal seconden: {timeFastest}\n\rAantal uren: {hourAmount}\nAantal minuten: {minutesAmount}\nAantal seconden: {secondsAmount}";
+                for (int i = 0; i < currentIndex; i++)
+                {
+                    times[i] = int.Parse(athleteData[i, 1]);
+                }
+
+                Array.Sort(times);
+                Array.Reverse(times);
+
+                string[] sortedNames = new string[times.Length];
+
+                for (int i = 0; i < currentIndex; i++)
+                {
+                    for (int j = 0; j < currentIndex; j++)
+                    {
+                        if (times[i] == int.Parse(athleteData[j, 1]))
+                        {
+                            sortedNames[i] = athleteData[j, 0];
+                            athleteData[j, 1] = "-1";           // Mark this entry as processed to avoid duplicate matching
+                        }
+                    }
+                }
+                
+                for (int i = 0; i < currentIndex; i++)
+                {
+                    
+                    int time = times[i];
+
+                    int hourAmount = time / 3600;
+                    int minutesAmount = (time % 3600) / 60;
+                    int secondsAmount = (time % 3600) % 60;
+
+                    resultTextBox.Text += $"   {sortedNames[i]} : {hourAmount} hours {minutesAmount} minutes {secondsAmount} seconds \n";
+                }
+            }    
         }
 
         private void closeButton_Click(object sender, RoutedEventArgs e)

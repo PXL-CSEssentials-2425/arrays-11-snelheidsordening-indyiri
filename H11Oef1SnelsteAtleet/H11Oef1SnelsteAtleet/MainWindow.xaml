@@ -24,8 +24,8 @@
         <TextBox x:Name="resultTextBox" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="690" Height="360" Background="#FFE6D7D7" IsEnabled="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="2" Grid.Row="2">
             <Button x:Name="newButton" Content="Nieuwe ingave" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="newButton_Click" Margin="0 0 0 5"/>
-            <Button x:Name="fastestButton" Content="Snelste atleet" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="fastestButton_Click" Margin="0 5"/>
-            <Button x:Name="clearButton" Content="Wissen" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="clearButton_Click" Margin="0 5"/>
+            <Button x:Name="fastestButton" Content="Snelste atleten" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="fastestButton_Click" Margin="0 5"/>
+            <Button x:Name="clearButton" Content="Opnieuw" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="clearButton_Click" Margin="0 5"/>
             <Button x:Name="closeButton" Content="Afsluiten" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="40" Click="closeButton_Click" Margin="0 5"/>
         </StackPanel>
     </Grid>
